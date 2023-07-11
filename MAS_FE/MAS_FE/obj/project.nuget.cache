@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "NenlfSiPLGz4QBNLbQ4/YQOe1s+GjcU4SURQTAGfDZ0tzZX07V1XcH7ndBBCOOnX0KpOGkJs5XyXmz0dAJTujg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Glebasher\\CSharpRep\\MAS\\MAS_FE\\MAS_FE\\MAS_FE.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Glebasher\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.17\\microsoft.netcore.app.host.win-x64.5.0.17.nupkg.sha512"
+  ],
+  "logs": []
+}
