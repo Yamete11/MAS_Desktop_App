@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "NenlfSiPLGz4QBNLbQ4/YQOe1s+GjcU4SURQTAGfDZ0tzZX07V1XcH7ndBBCOOnX0KpOGkJs5XyXmz0dAJTujg==",
+  "dgSpecHash": "z3Km+FicOkwOBnjyuid2pk1F/5TXhe9Q8Mnp2DmAxaz6ueYf2WD++gXq2M3XvPajejtM6x/P1v+v39Tj6TyeXQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Glebasher\\CSharpRep\\MAS\\MAS_FE\\MAS_FE\\MAS_FE.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Glebasher\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\Glebasher\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.17\\microsoft.netcore.app.host.win-x64.5.0.17.nupkg.sha512"
   ],
   "logs": []

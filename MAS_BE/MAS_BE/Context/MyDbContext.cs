@@ -50,8 +50,8 @@ namespace MAS_BE.Context
             modelBuilder.Entity<Order>(t =>
             {
                 t.HasData(
-                    new Order { IdOrder = 1, Sum = 30.4f, CreateAt = new DateTime()},
-                    new Order { IdOrder = 2, Sum = 13f, CreateAt = new DateTime()});
+                    new Order { IdOrder = 1, Sum = 30.4f, CreateAt = DateTime.Now},
+                    new Order { IdOrder = 2, Sum = 13f, CreateAt = DateTime.Now});
             });
 
             modelBuilder.Entity<OrderProduct>(t =>

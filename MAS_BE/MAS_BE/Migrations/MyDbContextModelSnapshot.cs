@@ -43,13 +43,13 @@ namespace MAS_BE.Migrations
                         new
                         {
                             IdOrder = 1,
-                            CreateAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateAt = new DateTime(2023, 7, 12, 13, 53, 11, 359, DateTimeKind.Local).AddTicks(7257),
                             Sum = 30.4f
                         },
                         new
                         {
                             IdOrder = 2,
-                            CreateAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateAt = new DateTime(2023, 7, 12, 13, 53, 11, 361, DateTimeKind.Local).AddTicks(5689),
                             Sum = 13f
                         });
                 });
