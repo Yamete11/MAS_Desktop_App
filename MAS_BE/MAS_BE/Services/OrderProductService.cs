@@ -1,6 +1,6 @@
 ﻿namespace MAS_BE.Services
 {
-    public class OrderProductService
+    public class OrderProductService : IOrderProductService
     {
     }
 }

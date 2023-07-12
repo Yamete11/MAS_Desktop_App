@@ -21,7 +21,7 @@ namespace MAS_BE.Entities
         [ForeignKey(nameof(IdOrder))]
         public Order Order { get; set; }
 
-        public DateTime CreateAt { get; set; }
+        public DateTime? CreateAt { get; set; }
 
         public string? Description { get; set; }
     }
