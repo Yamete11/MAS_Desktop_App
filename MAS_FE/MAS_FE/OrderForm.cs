@@ -17,6 +17,8 @@ namespace MAS_FE
         int IdOrder;
         public List<Product> foodList { get; set; }
         public List<Product> drinkList { get; set; }
+
+        public List<OrderProduct> orderProducts { get; set; }
         public OrderForm(int IdOrder)
         {
             InitializeComponent();
@@ -26,15 +28,14 @@ namespace MAS_FE
         private async void OrderForm_Load(object sender, EventArgs e)
         {
             List<Product> products = await GetOrdersFromApi();
-            List<OrderProduct> orderProducts = await GetOrderProductsFromApi(IdOrder);
+            orderProducts = await GetOrderProductsFromApi(IdOrder);
 
             Cart_listbox.Items.AddRange(orderProducts.ToArray());
 
             foodList = products.Where(product => product.IdProductCategory == 1).ToList();
             drinkList = products.Where(product => product.IdProductCategory == 2).ToList();
 
-            float Sum = orderProducts.Sum(product => product.Price);
-            Sum_label.Text = Sum.ToString();
+            UpdateSum();
             Products_listbox.Items.AddRange(foodList.ToArray());
         }
 
@@ -129,6 +130,9 @@ namespace MAS_FE
             };
             
             Cart_listbox.Items.Add(orderProduct);
+
+            UpdateSum();
+
         }
 
         private void Void_button_Click(object sender, EventArgs e)
@@ -137,9 +141,17 @@ namespace MAS_FE
             {
                 Cart_listbox.Items.Remove(Cart_listbox.SelectedItem);
             }
+
+            UpdateSum();
         }
 
-        private void Send_button_Click(object sender, EventArgs e)
+        private void UpdateSum()
+        {
+            float totalPrice = Cart_listbox.Items.Cast<OrderProduct>().Sum(orderProduct => orderProduct.Price);
+            Sum_label.Text = totalPrice.ToString();
+        }
+
+        private async void Send_button_Click(object sender, EventArgs e)
         {
             List<ProductResult> productResults = new List<ProductResult>();
 
@@ -157,7 +169,7 @@ namespace MAS_FE
 
                productResults.Add(productResult);
             }
-            SendProductResults(productResults);
+            await SendProductResults(productResults);
 
             this.Hide();
             Form1 Form1 = new Form1();
@@ -172,6 +184,7 @@ namespace MAS_FE
                 IdProduct = pr.IdProduct,
                 IdOrder = pr.IdOrder
             }).ToList();
+
 
             using (HttpClient httpClient = new HttpClient())
             {
@@ -189,12 +202,12 @@ namespace MAS_FE
                 
                 if (response.IsSuccessStatusCode)
                 {
-                    // Success
+                    
                     Console.WriteLine("ProductResults sent successfully.");
                 }
                 else
                 {
-                    // Error
+                    
                     Console.WriteLine("Failed to send ProductResults. Status code: " + response.StatusCode);
                 }
             }

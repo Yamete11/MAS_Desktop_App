@@ -46,7 +46,9 @@ namespace MAS_BE.Services
             
             _context.OrderProducts.RemoveRange(orderProductsToUpdate);
 
-            
+
+
+
             var newOrderProducts = productResultDTOs.Select(dto => new OrderProduct
             {
                 IdProduct = dto.IdProduct,
@@ -54,18 +56,28 @@ namespace MAS_BE.Services
             }).ToList();
 
             
+            
             _context.OrderProducts.AddRange(newOrderProducts);
+            await _context.SaveChangesAsync();
 
-            /*var order = await _context.Orders.FindAsync(productResultDTOs[0].IdOrder);
-            order.Sum = orderProductsToUpdate.Sum(op => op.Product.Price);
-*/
+            float totalPrice = (from p in _context.Products
+                                join op in _context.OrderProducts on p.IdProduct equals op.IdProduct
+                                where op.IdOrder == productResultDTOs[0].IdOrder
+                                select p.Price).Sum();
+
+            var orderToUpdate = _context.Orders.FirstOrDefault(op => op.IdOrder == productResultDTOs[0].IdOrder);
+
+            orderToUpdate.Sum = totalPrice;
+
+            _context.Orders.Update(orderToUpdate);
+
 
             await _context.SaveChangesAsync();
 
             return new MethodResultDTO
             {
                 HttpStatusCode = HttpStatusCode.OK,
-                Message = "Added"
+                Message = "Updated"
             }; ;
         }
 

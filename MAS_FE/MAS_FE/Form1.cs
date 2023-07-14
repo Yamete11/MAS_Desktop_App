@@ -17,6 +17,7 @@ namespace MAS_FE
         public Form1()
         {
             InitializeComponent();
+
         }
 
         private void Exit_Click(object sender, EventArgs e)
@@ -33,8 +34,6 @@ namespace MAS_FE
         {
             
             List<Order> orders = await GetOrdersFromApi();
-
-            
             Order_listbox.Items.AddRange(orders.ToArray());
 
         }
@@ -53,7 +52,6 @@ namespace MAS_FE
                 }
                 else
                 {
-                    // Handle error response
                     MessageBox.Show("Failed to retrieve data from the API.");
                     return new List<Order>();
                 }
@@ -63,6 +61,7 @@ namespace MAS_FE
         private void Select_button_Click(object sender, EventArgs e)
         {
             Order? Order = Order_listbox.SelectedItem as Order;
+            
             OrderForm orderForm = new OrderForm(Order.IdOrder);
             orderForm.Show();
             this.Hide();
