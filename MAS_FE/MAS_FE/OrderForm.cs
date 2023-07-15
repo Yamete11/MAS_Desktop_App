@@ -15,10 +15,14 @@ namespace MAS_FE
     public partial class OrderForm : Form
     {
         int IdOrder;
-        public List<Product> foodList { get; set; }
-        public List<Product> drinkList { get; set; }
+        public List<Product>? foodList { get; set; }
+        public List<Product>? drinkList { get; set; }
 
-        public List<OrderProduct> orderProducts { get; set; }
+        public List<OrderProduct>? orderProducts { get; set; }
+        public OrderForm()
+        {
+            InitializeComponent();
+        }
         public OrderForm(int IdOrder)
         {
             InitializeComponent();

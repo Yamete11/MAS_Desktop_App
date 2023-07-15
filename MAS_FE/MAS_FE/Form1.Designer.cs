@@ -62,6 +62,7 @@
             this.Create_button.TabIndex = 2;
             this.Create_button.Text = "Create order";
             this.Create_button.UseVisualStyleBackColor = true;
+            this.Create_button.Click += new System.EventHandler(this.Create_button_Click);
             // 
             // Exit
             // 

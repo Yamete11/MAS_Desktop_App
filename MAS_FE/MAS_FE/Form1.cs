@@ -66,5 +66,13 @@ namespace MAS_FE
             orderForm.Show();
             this.Hide();
         }
+
+        private void Create_button_Click(object sender, EventArgs e)
+        {
+            TypeForm typeForm = new TypeForm();
+            typeForm.TopMost = true;
+            typeForm.Show();
+            
+        }
     }
 }
