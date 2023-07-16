@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MAS_BE.Entities
 {
@@ -18,5 +19,13 @@ namespace MAS_BE.Entities
 
         
         public ICollection<OrderProduct> OrderProducts { get; set; }
+
+        public int IdOrderType { get; set; }
+
+        [Required]
+        [ForeignKey(nameof(IdOrderType))]
+        public OrderType OrderType { get; set; }
+
+        public int? TableNumber { get; set; }
     }
 }

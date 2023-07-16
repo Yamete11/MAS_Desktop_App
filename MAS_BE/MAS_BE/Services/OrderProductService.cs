@@ -3,6 +3,7 @@ using MAS_BE.DTOs;
 using MAS_BE.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -37,35 +38,47 @@ namespace MAS_BE.Services
             .ToListAsync();
         }
 
-        public async Task<MethodResultDTO> UpdateOrderProduct(List<ProductResultDTO> productResultDTOs)
+        public async Task<MethodResultDTO> UpdateOrderProduct(ProductResultDTO productResultDTOs)
         {
+            if (productResultDTOs.IdOrder == 0)
+            {
+                Order order = new Order
+                {
+                    Sum = 0,
+                    CreateAt = DateTime.Now,
+                    IdOrderType = productResultDTOs.IdOrderType,
+                    TableNumber = productResultDTOs.TableNumber
+                };
+                _context.Orders.Add(order);
+                await _context.SaveChangesAsync();
+                productResultDTOs.IdOrder = order.IdOrder;
+            }
+
+            
             var orderProductsToUpdate = await _context.OrderProducts
-                .Where(op => op.IdOrder == productResultDTOs[0].IdOrder)
+                .Where(op => op.IdOrder == productResultDTOs.IdOrder)
                 .ToListAsync();
 
             
             _context.OrderProducts.RemoveRange(orderProductsToUpdate);
 
-
-
-
-            var newOrderProducts = productResultDTOs.Select(dto => new OrderProduct
+            foreach(var productId in productResultDTOs.IdProducts)
             {
-                IdProduct = dto.IdProduct,
-                IdOrder = dto.IdOrder
-            }).ToList();
+                OrderProduct orderProduct = new OrderProduct
+                {
+                    IdProduct = productId,
+                    IdOrder = productResultDTOs.IdOrder,
+                    CreateAt = DateTime.Now
+                };
 
-            
-            
-            _context.OrderProducts.AddRange(newOrderProducts);
-            await _context.SaveChangesAsync();
+                _context.OrderProducts.Add(orderProduct);
+            }
 
-            float totalPrice = (from p in _context.Products
-                                join op in _context.OrderProducts on p.IdProduct equals op.IdProduct
-                                where op.IdOrder == productResultDTOs[0].IdOrder
-                                select p.Price).Sum();
+            float totalPrice = (from p in productResultDTOs.IdProducts
+                                join op in _context.Products on p equals op.IdProduct
+                                select op.Price).Sum();
 
-            var orderToUpdate = _context.Orders.FirstOrDefault(op => op.IdOrder == productResultDTOs[0].IdOrder);
+            var orderToUpdate = _context.Orders.FirstOrDefault(op => op.IdOrder == productResultDTOs.IdOrder);
 
             orderToUpdate.Sum = totalPrice;
 

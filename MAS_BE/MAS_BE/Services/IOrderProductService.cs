@@ -8,6 +8,6 @@ namespace MAS_BE.Services
     public interface IOrderProductService
     {
         public Task<IEnumerable<OrderProductDTO>> GetOrderProducts(int IdOrder);
-        public Task<MethodResultDTO> UpdateOrderProduct(List<ProductResultDTO> productResultDTOs);
+        public Task<MethodResultDTO> UpdateOrderProduct(ProductResultDTO productResultDTOs);
     }
 }

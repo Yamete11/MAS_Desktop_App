@@ -25,7 +25,7 @@ namespace MAS_BE.Controllers
         }
 
         [HttpPut]
-        public async Task<MethodResultDTO> UpdateOrderProduct(List<ProductResultDTO> productResultDTOs)
+        public async Task<MethodResultDTO> UpdateOrderProduct(ProductResultDTO productResultDTOs)
         {
             return await _service.UpdateOrderProduct(productResultDTOs);
         }

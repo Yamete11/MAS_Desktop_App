@@ -66,6 +66,14 @@ namespace MAS_BE.Context
 
             });
 
+            modelBuilder.Entity<OrderType>(t =>
+            {
+                t.HasData(
+                    new OrderType { IdOrderType = 1, Title = "Take away" },
+                    new OrderType { IdOrderType = 2, Title = "For here" });
+
+            });
+
         }
     }
 }
