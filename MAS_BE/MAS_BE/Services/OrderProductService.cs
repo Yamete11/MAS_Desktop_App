@@ -14,7 +14,7 @@ namespace MAS_BE.Services
     public class OrderProductService : IOrderProductService
     {
 
-        readonly MyDbContext _context;
+        private readonly MyDbContext _context;
 
         public OrderProductService(MyDbContext context)
         {

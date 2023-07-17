@@ -11,7 +11,7 @@ namespace MAS_BE.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        readonly IProductService _service;
+        private readonly IProductService _service;
 
         public ProductController(IProductService service)
         {
@@ -28,6 +28,12 @@ namespace MAS_BE.Controllers
         public async Task<MethodResultDTO> DeleteProduct(int IdProduct)
         {
             return await _service.DeleteProduct(IdProduct);
+        }
+
+        [HttpPost]
+        public async Task<MethodResultDTO> PostProduct(ProductDTO productDTO)
+        {
+            return await _service.PostProduct(productDTO);
         }
     }
 }

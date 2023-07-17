@@ -11,7 +11,7 @@ namespace MAS_BE.Controllers
     [ApiController]
     public class OrderProductController : ControllerBase
     {
-        readonly IOrderProductService _service;
+        private readonly IOrderProductService _service;
 
         public OrderProductController(IOrderProductService service)
         {
