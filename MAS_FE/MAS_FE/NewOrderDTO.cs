@@ -6,14 +6,10 @@ using System.Threading.Tasks;
 
 namespace MAS_FE
 {
-    public class ProductResult
+    internal class NewOrderDTO
     {
-        public int IdOrder { get; set; }
         public List<int> IdProducts { get; set; }
-
-        public override string? ToString()
-        {
-            return $"{IdOrder} | {IdProducts}";
-        }
+        public int IdOrderType { get; set; }
+        public int? TableNumber { get; set; }
     }
 }

@@ -40,20 +40,6 @@ namespace MAS_BE.Services
 
         public async Task<MethodResultDTO> UpdateOrderProduct(ProductResultDTO productResultDTOs)
         {
-            if (productResultDTOs.IdOrder == 0)
-            {
-                Order order = new Order
-                {
-                    Sum = 0,
-                    CreateAt = DateTime.Now,
-                    IdOrderType = productResultDTOs.IdOrderType,
-                    TableNumber = productResultDTOs.TableNumber
-                };
-                _context.Orders.Add(order);
-                await _context.SaveChangesAsync();
-                productResultDTOs.IdOrder = order.IdOrder;
-            }
-
             
             var orderProductsToUpdate = await _context.OrderProducts
                 .Where(op => op.IdOrder == productResultDTOs.IdOrder)
@@ -87,11 +73,13 @@ namespace MAS_BE.Services
 
             await _context.SaveChangesAsync();
 
+
+
             return new MethodResultDTO
             {
                 HttpStatusCode = HttpStatusCode.OK,
                 Message = "Updated"
-            }; ;
+            };
         }
 
     }

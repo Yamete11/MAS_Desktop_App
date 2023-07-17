@@ -49,6 +49,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 23);
             this.textBox1.TabIndex = 1;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // Confirm_button
             // 
@@ -58,6 +59,7 @@
             this.Confirm_button.TabIndex = 2;
             this.Confirm_button.Text = "Confirm";
             this.Confirm_button.UseVisualStyleBackColor = true;
+            this.Confirm_button.Click += new System.EventHandler(this.Confirm_button_Click);
             // 
             // Cancel_button
             // 

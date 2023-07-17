@@ -19,9 +19,9 @@ namespace MAS_FE
 
         private void button1_Click(object sender, EventArgs e)
         {
-            OrderForm orderForm = new OrderForm();
-            orderForm.Show();
             this.Hide();
+            OrderForm orderForm = new OrderForm(1, 0);
+            orderForm.Show();
         }
 
         private void button3_Click(object sender, EventArgs e)

@@ -19,3 +19,6 @@ C:\Users\Glebasher\CSharpRep\MAS\MAS_FE\MAS_FE\obj\Debug\net5.0-windows\refint\M
 C:\Users\Glebasher\CSharpRep\MAS\MAS_FE\MAS_FE\obj\Debug\net5.0-windows\MAS_FE.pdb
 C:\Users\Glebasher\CSharpRep\MAS\MAS_FE\MAS_FE\obj\Debug\net5.0-windows\MAS_FE.genruntimeconfig.cache
 C:\Users\Glebasher\CSharpRep\MAS\MAS_FE\MAS_FE\obj\Debug\net5.0-windows\ref\MAS_FE.dll
+C:\Users\Glebasher\CSharpRep\MAS\MAS_FE\MAS_FE\obj\Debug\net5.0-windows\MAS_FE.GuestNumberForm.resources
+C:\Users\Glebasher\CSharpRep\MAS\MAS_FE\MAS_FE\obj\Debug\net5.0-windows\MAS_FE.TypeForm.resources
+C:\Users\Glebasher\CSharpRep\MAS\MAS_FE\MAS_FE\obj\Debug\net5.0-windows\MAS_FE.AddProductForm.resources

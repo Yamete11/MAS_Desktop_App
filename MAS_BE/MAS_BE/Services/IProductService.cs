@@ -7,5 +7,6 @@ namespace MAS_BE.Services
     public interface IProductService
     {
         public Task<IEnumerable<ProductDTO>> GetProducts();
+        public Task<MethodResultDTO> DeleteProduct(int IdProduct);
     }
 }

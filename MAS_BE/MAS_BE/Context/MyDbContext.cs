@@ -13,6 +13,8 @@ namespace MAS_BE.Context
 
         public virtual DbSet<ProductCategory> ProductCategories { get; set; }
 
+        public virtual DbSet<OrderType> OrderTypes { get; set; }
+
         public MyDbContext()
         {
 
@@ -47,11 +49,19 @@ namespace MAS_BE.Context
 
             });
 
+            modelBuilder.Entity<OrderType>(t =>
+            {
+                t.HasData(
+                    new OrderType { IdOrderType = 1, Title = "Take away" },
+                    new OrderType { IdOrderType = 2, Title = "For here" });
+
+            });
+
             modelBuilder.Entity<Order>(t =>
             {
                 t.HasData(
-                    new Order { IdOrder = 1, Sum = 30.4f, CreateAt = DateTime.Now},
-                    new Order { IdOrder = 2, Sum = 13f, CreateAt = DateTime.Now});
+                    new Order { IdOrder = 1, Sum = 30.4f, CreateAt = DateTime.Now, IdOrderType = 1 },
+                    new Order { IdOrder = 2, Sum = 13f, CreateAt = DateTime.Now, IdOrderType = 1 });
             });
 
             modelBuilder.Entity<OrderProduct>(t =>
@@ -66,13 +76,7 @@ namespace MAS_BE.Context
 
             });
 
-            modelBuilder.Entity<OrderType>(t =>
-            {
-                t.HasData(
-                    new OrderType { IdOrderType = 1, Title = "Take away" },
-                    new OrderType { IdOrderType = 2, Title = "For here" });
-
-            });
+            
 
         }
     }

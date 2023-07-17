@@ -3,23 +3,21 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MAS_BE.Migrations
 {
-    public partial class asd : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Orders",
+                name: "OrderTypes",
                 columns: table => new
                 {
-                    IdOrder = table.Column<int>(type: "int", nullable: false)
+                    IdOrderType = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Sum = table.Column<float>(type: "real", nullable: false),
-                    CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ClosedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Orders", x => x.IdOrder);
+                    table.PrimaryKey("PK_OrderTypes", x => x.IdOrderType);
                 });
 
             migrationBuilder.CreateTable(
@@ -33,6 +31,29 @@ namespace MAS_BE.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProductCategories", x => x.IdProductCategory);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    IdOrder = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Sum = table.Column<float>(type: "real", nullable: false),
+                    CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ClosedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IdOrderType = table.Column<int>(type: "int", nullable: false),
+                    TableNumber = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.IdOrder);
+                    table.ForeignKey(
+                        name: "FK_Orders_OrderTypes_IdOrderType",
+                        column: x => x.IdOrderType,
+                        principalTable: "OrderTypes",
+                        principalColumn: "IdOrderType",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -85,12 +106,12 @@ namespace MAS_BE.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Orders",
-                columns: new[] { "IdOrder", "ClosedAt", "CreateAt", "Sum" },
+                table: "OrderTypes",
+                columns: new[] { "IdOrderType", "Title" },
                 values: new object[,]
                 {
-                    { 1, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 30.4f },
-                    { 2, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 13f }
+                    { 1, "Take away" },
+                    { 2, "For here" }
                 });
 
             migrationBuilder.InsertData(
@@ -100,6 +121,15 @@ namespace MAS_BE.Migrations
                 {
                     { 1, "Food" },
                     { 2, "Drink" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Orders",
+                columns: new[] { "IdOrder", "ClosedAt", "CreateAt", "IdOrderType", "Sum", "TableNumber" },
+                values: new object[,]
+                {
+                    { 1, null, new DateTime(2023, 7, 17, 16, 56, 5, 571, DateTimeKind.Local).AddTicks(5612), 1, 30.4f, null },
+                    { 2, null, new DateTime(2023, 7, 17, 16, 56, 5, 573, DateTimeKind.Local).AddTicks(7813), 1, 13f, null }
                 });
 
             migrationBuilder.InsertData(
@@ -139,6 +169,11 @@ namespace MAS_BE.Migrations
                 column: "IdProduct");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Orders_IdOrderType",
+                table: "Orders",
+                column: "IdOrderType");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Products_IdProductCategory",
                 table: "Products",
                 column: "IdProductCategory");
@@ -154,6 +189,9 @@ namespace MAS_BE.Migrations
 
             migrationBuilder.DropTable(
                 name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "OrderTypes");
 
             migrationBuilder.DropTable(
                 name: "ProductCategories");

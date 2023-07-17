@@ -26,6 +26,7 @@ namespace MAS_BE.Entities
         [ForeignKey(nameof(IdOrderType))]
         public OrderType OrderType { get; set; }
 
+
         public int? TableNumber { get; set; }
     }
 }

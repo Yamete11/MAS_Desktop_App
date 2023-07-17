@@ -2,9 +2,10 @@
 
 namespace MAS_BE.DTOs
 {
-    public class ProductResultDTO
+    public class NewOrderDTO
     {
-        public int IdOrder { get; set; }
         public List<int> IdProducts { get; set; }
+        public int IdOrderType { get; set; }
+        public int? TableNumber { get; set; }
     }
 }

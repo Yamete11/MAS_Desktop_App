@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MAS_BE.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20230714095540_sxzc")]
-    partial class sxzc
+    [Migration("20230717145605_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,10 +34,18 @@ namespace MAS_BE.Migrations
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("IdOrderType")
+                        .HasColumnType("int");
+
                     b.Property<float>("Sum")
                         .HasColumnType("real");
 
+                    b.Property<int?>("TableNumber")
+                        .HasColumnType("int");
+
                     b.HasKey("IdOrder");
+
+                    b.HasIndex("IdOrderType");
 
                     b.ToTable("Orders");
 
@@ -45,13 +53,15 @@ namespace MAS_BE.Migrations
                         new
                         {
                             IdOrder = 1,
-                            CreateAt = new DateTime(2023, 7, 14, 11, 55, 39, 939, DateTimeKind.Local).AddTicks(5555),
+                            CreateAt = new DateTime(2023, 7, 17, 16, 56, 5, 571, DateTimeKind.Local).AddTicks(5612),
+                            IdOrderType = 1,
                             Sum = 30.4f
                         },
                         new
                         {
                             IdOrder = 2,
-                            CreateAt = new DateTime(2023, 7, 14, 11, 55, 39, 941, DateTimeKind.Local).AddTicks(4055),
+                            CreateAt = new DateTime(2023, 7, 17, 16, 56, 5, 573, DateTimeKind.Local).AddTicks(7813),
+                            IdOrderType = 1,
                             Sum = 13f
                         });
                 });
@@ -119,6 +129,33 @@ namespace MAS_BE.Migrations
                             IdOrderProduct = 6,
                             IdOrder = 2,
                             IdProduct = 6
+                        });
+                });
+
+            modelBuilder.Entity("MAS_BE.Entities.OrderType", b =>
+                {
+                    b.Property<int>("IdOrderType")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdOrderType");
+
+                    b.ToTable("OrderTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            IdOrderType = 1,
+                            Title = "Take away"
+                        },
+                        new
+                        {
+                            IdOrderType = 2,
+                            Title = "For here"
                         });
                 });
 
@@ -216,6 +253,17 @@ namespace MAS_BE.Migrations
                         });
                 });
 
+            modelBuilder.Entity("MAS_BE.Entities.Order", b =>
+                {
+                    b.HasOne("MAS_BE.Entities.OrderType", "OrderType")
+                        .WithMany("Orders")
+                        .HasForeignKey("IdOrderType")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OrderType");
+                });
+
             modelBuilder.Entity("MAS_BE.Entities.OrderProduct", b =>
                 {
                     b.HasOne("MAS_BE.Entities.Order", "Order")
@@ -249,6 +297,11 @@ namespace MAS_BE.Migrations
             modelBuilder.Entity("MAS_BE.Entities.Order", b =>
                 {
                     b.Navigation("OrderProducts");
+                });
+
+            modelBuilder.Entity("MAS_BE.Entities.OrderType", b =>
+                {
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("MAS_BE.Entities.Product", b =>

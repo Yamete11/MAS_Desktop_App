@@ -23,5 +23,11 @@ namespace MAS_BE.Controllers
         {
             return await _service.GetProducts();
         }
+
+        [HttpDelete("{IdProduct}")]
+        public async Task<MethodResultDTO> DeleteProduct(int IdProduct)
+        {
+            return await _service.DeleteProduct(IdProduct);
+        }
     }
 }

@@ -14,7 +14,9 @@ namespace MAS_FE
 {
     public partial class OrderForm : Form
     {
-        int IdOrder;
+        int IdOrder = 0;
+        int IdOrderType;
+        int TableNumber;
         public List<Product>? foodList { get; set; }
         public List<Product>? drinkList { get; set; }
 
@@ -27,6 +29,13 @@ namespace MAS_FE
         {
             InitializeComponent();
             this.IdOrder = IdOrder;
+        }
+
+        public OrderForm(int IdOrderType, int TableNumber)
+        {
+            InitializeComponent();
+            this.IdOrderType = IdOrderType;
+            this.TableNumber = TableNumber;
         }
 
         private async void OrderForm_Load(object sender, EventArgs e)
@@ -157,37 +166,73 @@ namespace MAS_FE
 
         private async void Send_button_Click(object sender, EventArgs e)
         {
-            List<ProductResult> productResults = new List<ProductResult>();
+            List<int> productResults = new List<int>();
 
             foreach (var item in Cart_listbox.Items)
             {
                 OrderProduct selectedOrderProduct = item as OrderProduct;
 
-                int idProduct = selectedOrderProduct.IdProduct;
-
-                ProductResult productResult = new ProductResult
-                {
-                    IdProduct = idProduct,
-                    IdOrder = IdOrder
-                };
-
-               productResults.Add(productResult);
+                productResults.Add(selectedOrderProduct.IdProduct);
             }
-            await SendProductResults(productResults);
+
+            if(IdOrder == 0)
+            {
+                await SendNewOrder(productResults);
+            } else
+            {
+                await SendProductResults(productResults);
+            }
+            
 
             this.Hide();
             Form1 Form1 = new Form1();
             Form1.Show();
         }
 
-        private async Task SendProductResults(List<ProductResult> productResults)
+        private async Task SendNewOrder(List<int> productResults)
         {
-            
-            List<ProductResult> productResultDTOs = productResults.Select(pr => new ProductResult
+            NewOrderDTO newOrderDTO = new NewOrderDTO()
             {
-                IdProduct = pr.IdProduct,
-                IdOrder = pr.IdOrder
-            }).ToList();
+                IdOrderType = this.IdOrderType,
+                TableNumber = this.TableNumber,
+                IdProducts = productResults
+            };
+
+            using (HttpClient httpClient = new HttpClient())
+            {
+                string url = "https://localhost:44325/api/Order";
+
+
+                string jsonContent = JsonConvert.SerializeObject(newOrderDTO);
+
+
+                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+
+                HttpResponseMessage response = await httpClient.PostAsync(url, content);
+
+
+                if (response.IsSuccessStatusCode)
+                {
+
+                    Console.WriteLine("ProductResults sent successfully.");
+                }
+                else
+                {
+
+                    Console.WriteLine("Failed to send ProductResults. Status code: " + response.StatusCode);
+                }
+            }
+        }
+
+        private async Task SendProductResults(List<int> productResults)
+        {
+
+            ProductResult productResultDTOs = new ProductResult()
+            {
+                IdOrder = IdOrder,
+                IdProducts = productResults
+            };
 
 
             using (HttpClient httpClient = new HttpClient())

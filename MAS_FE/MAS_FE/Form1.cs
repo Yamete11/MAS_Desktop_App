@@ -60,19 +60,37 @@ namespace MAS_FE
 
         private void Select_button_Click(object sender, EventArgs e)
         {
-            Order? Order = Order_listbox.SelectedItem as Order;
+
+            if (Order_listbox.SelectedIndex != -1)
+            {
+
+                Order? Order = Order_listbox.SelectedItem as Order;
+
+                OrderForm orderForm = new OrderForm(Order.IdOrder);
+                orderForm.Show();
+                this.Hide();
+            }
+            else
+            {
+                
+                MessageBox.Show("Please select an item from the list.");
+            }
             
-            OrderForm orderForm = new OrderForm(Order.IdOrder);
-            orderForm.Show();
-            this.Hide();
         }
 
         private void Create_button_Click(object sender, EventArgs e)
         {
             TypeForm typeForm = new TypeForm();
-            typeForm.TopMost = true;
+            this.Enabled = false;
             typeForm.Show();
             
+        }
+
+        private void Add_button_Click(object sender, EventArgs e)
+        {
+            AddProductForm productForm = new AddProductForm();
+            productForm.Show();
+            this.Hide();
         }
     }
 }

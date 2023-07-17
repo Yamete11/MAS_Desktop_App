@@ -32,6 +32,7 @@
             this.Select_button = new System.Windows.Forms.Button();
             this.Create_button = new System.Windows.Forms.Button();
             this.Exit = new System.Windows.Forms.Button();
+            this.Add_button = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Order_listbox
@@ -75,11 +76,22 @@
             this.Exit.UseVisualStyleBackColor = true;
             this.Exit.Click += new System.EventHandler(this.Exit_Click);
             // 
+            // Add_button
+            // 
+            this.Add_button.Location = new System.Drawing.Point(407, 23);
+            this.Add_button.Name = "Add_button";
+            this.Add_button.Size = new System.Drawing.Size(122, 41);
+            this.Add_button.TabIndex = 4;
+            this.Add_button.Text = "Add product";
+            this.Add_button.UseVisualStyleBackColor = true;
+            this.Add_button.Click += new System.EventHandler(this.Add_button_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.Add_button);
             this.Controls.Add(this.Exit);
             this.Controls.Add(this.Create_button);
             this.Controls.Add(this.Select_button);
@@ -98,5 +110,6 @@
         private System.Windows.Forms.Button Select_button;
         private System.Windows.Forms.Button Create_button;
         private System.Windows.Forms.Button Exit;
+        private System.Windows.Forms.Button Add_button;
     }
 }
