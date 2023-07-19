@@ -90,22 +90,7 @@ namespace MAS_FE
 
                 await DeleteProduct(productIdToDelete);
 
-                listBox1.Items.Clear();
-
-                List<Product> products = await GetOrdersFromApi();
-
-                foodList = products.Where(product => product.IdProductCategory == 1).ToList();
-                drinkList = products.Where(product => product.IdProductCategory == 2).ToList();
-
-                if (CategoryFood == true)
-                {
-                    listBox1.Items.AddRange(foodList.ToArray());
-                }
-                else
-                {
-                    listBox1.Items.AddRange(drinkList.ToArray());
-                }
-
+                UpdateList();
 
             }
             else
@@ -137,5 +122,96 @@ namespace MAS_FE
             }
         }
 
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void Add_button_Click(object sender, EventArgs e)
+        {
+            string title = textBox1.Text.Trim();
+            if (string.IsNullOrEmpty(title))
+            {
+                MessageBox.Show("Please enter a title.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            float price;
+            if (!float.TryParse(textBox2.Text, out price))
+            {
+                MessageBox.Show("Please enter a valid price.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (!radioButton1.Checked && !radioButton2.Checked)
+            {
+                MessageBox.Show("Please select a product category.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            int idProductCategory = radioButton1.Checked ? 1 : 2;
+
+            Product product = new Product
+            {
+                Title = title,
+                Price = price,
+                IdProductCategory = idProductCategory
+            };
+
+            string jsonProduct = JsonConvert.SerializeObject(product);
+
+            using (HttpClient client = new HttpClient())
+            {
+                var content = new StringContent(jsonProduct, System.Text.Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("https://localhost:44325/api/Product", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("Product added successfully.");
+                }
+                else
+                {
+                    Console.WriteLine("Failed to add product. Error: " + response.StatusCode);
+                }
+            }
+
+            UpdateList();
+        }
+
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        public async void UpdateList()
+        {
+            listBox1.Items.Clear();
+
+            List<Product> products = await GetOrdersFromApi();
+
+            foodList = products.Where(product => product.IdProductCategory == 1).ToList();
+            drinkList = products.Where(product => product.IdProductCategory == 2).ToList();
+
+            if (CategoryFood == true)
+            {
+                listBox1.Items.AddRange(foodList.ToArray());
+            }
+            else
+            {
+                listBox1.Items.AddRange(drinkList.ToArray());
+            }
+
+        }
     }
 }

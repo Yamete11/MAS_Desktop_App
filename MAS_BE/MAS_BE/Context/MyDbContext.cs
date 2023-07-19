@@ -15,6 +15,8 @@ namespace MAS_BE.Context
 
         public virtual DbSet<OrderType> OrderTypes { get; set; }
 
+        public virtual DbSet<Receipt> Receipts { get; set; }
+
         public MyDbContext()
         {
 
