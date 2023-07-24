@@ -35,6 +35,9 @@ namespace MAS_BE.Migrations
                     b.Property<int>("IdOrderType")
                         .HasColumnType("int");
 
+                    b.Property<int?>("IdReceipt")
+                        .HasColumnType("int");
+
                     b.Property<float>("Sum")
                         .HasColumnType("real");
 
@@ -45,20 +48,24 @@ namespace MAS_BE.Migrations
 
                     b.HasIndex("IdOrderType");
 
+                    b.HasIndex("IdReceipt")
+                        .IsUnique()
+                        .HasFilter("[IdReceipt] IS NOT NULL");
+
                     b.ToTable("Orders");
 
                     b.HasData(
                         new
                         {
                             IdOrder = 1,
-                            CreateAt = new DateTime(2023, 7, 17, 16, 56, 5, 571, DateTimeKind.Local).AddTicks(5612),
+                            CreateAt = new DateTime(2023, 7, 25, 0, 52, 25, 441, DateTimeKind.Local).AddTicks(9943),
                             IdOrderType = 1,
                             Sum = 30.4f
                         },
                         new
                         {
                             IdOrder = 2,
-                            CreateAt = new DateTime(2023, 7, 17, 16, 56, 5, 573, DateTimeKind.Local).AddTicks(7813),
+                            CreateAt = new DateTime(2023, 7, 25, 0, 52, 25, 444, DateTimeKind.Local).AddTicks(499),
                             IdOrderType = 1,
                             Sum = 13f
                         });
@@ -251,6 +258,30 @@ namespace MAS_BE.Migrations
                         });
                 });
 
+            modelBuilder.Entity("MAS_BE.Entities.Receipt", b =>
+                {
+                    b.Property<int>("IdReceipt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("NIP")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("int");
+
+                    b.Property<float>("Sum")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime>("createdAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("IdReceipt");
+
+                    b.ToTable("Receipts");
+                });
+
             modelBuilder.Entity("MAS_BE.Entities.Order", b =>
                 {
                     b.HasOne("MAS_BE.Entities.OrderType", "OrderType")
@@ -259,7 +290,13 @@ namespace MAS_BE.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("MAS_BE.Entities.Receipt", "Receipt")
+                        .WithOne("Order")
+                        .HasForeignKey("MAS_BE.Entities.Order", "IdReceipt");
+
                     b.Navigation("OrderType");
+
+                    b.Navigation("Receipt");
                 });
 
             modelBuilder.Entity("MAS_BE.Entities.OrderProduct", b =>
@@ -310,6 +347,11 @@ namespace MAS_BE.Migrations
             modelBuilder.Entity("MAS_BE.Entities.ProductCategory", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("MAS_BE.Entities.Receipt", b =>
+                {
+                    b.Navigation("Order");
                 });
 #pragma warning restore 612, 618
         }

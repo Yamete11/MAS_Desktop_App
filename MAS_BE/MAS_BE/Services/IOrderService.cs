@@ -10,5 +10,7 @@ namespace MAS_BE.Services
         public Task<IEnumerable<OrderDTO>> GetOrders();
 
         public Task<MethodResultDTO> PostOrder(NewOrderDTO newOrderDTO);
+
+        public Task<MethodResultDTO> PostReceipt(ReceiptDTO receiptDTO);
     }
 }

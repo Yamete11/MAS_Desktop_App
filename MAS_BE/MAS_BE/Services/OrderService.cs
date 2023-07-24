@@ -70,5 +70,29 @@ namespace MAS_BE.Services
                 Message = "Updated"
             };
         }
+
+        public async Task<MethodResultDTO> PostReceipt(ReceiptDTO receiptDTO)
+        {
+            Receipt receipt = new Receipt
+            {
+                createdAt = DateTime.Now,
+                NIP = receiptDTO.NIP,
+                PaymentMethod = receiptDTO.PaymentMethod
+            };
+
+            Order order = _context.Orders.FirstOrDefault(o => o.IdOrder == receiptDTO.IdOrder);
+
+            order.Receipt = receipt;
+
+            _context.Orders.Update(order);
+
+            await _context.SaveChangesAsync();
+
+            return new MethodResultDTO
+            {
+                HttpStatusCode = HttpStatusCode.OK,
+                Message = "Added"
+            };
+        }
     }
 }

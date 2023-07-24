@@ -24,11 +24,16 @@ namespace MAS_BE.Controllers
             return await _service.GetOrders();
         }
 
-        [HttpPost]
+        [HttpPost("CreateOrder")]
         public async Task<MethodResultDTO> PostOrder(NewOrderDTO orderDTO)
         {
-            return  await _service.PostOrder(orderDTO);
+            return await _service.PostOrder(orderDTO);
+        }
 
+        [HttpPost("CreateReceipt")]
+        public async Task<MethodResultDTO> PostReceipt(ReceiptDTO receiptDTO)
+        {
+            return await _service.PostReceipt(receiptDTO);
         }
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MAS_BE.Migrations
 {
-    public partial class init : Migration
+    public partial class nmnm : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -34,26 +34,19 @@ namespace MAS_BE.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Orders",
+                name: "Receipts",
                 columns: table => new
                 {
-                    IdOrder = table.Column<int>(type: "int", nullable: false)
+                    IdReceipt = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    createdAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Sum = table.Column<float>(type: "real", nullable: false),
-                    CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ClosedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IdOrderType = table.Column<int>(type: "int", nullable: false),
-                    TableNumber = table.Column<int>(type: "int", nullable: true)
+                    NIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PaymentMethod = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Orders", x => x.IdOrder);
-                    table.ForeignKey(
-                        name: "FK_Orders_OrderTypes_IdOrderType",
-                        column: x => x.IdOrderType,
-                        principalTable: "OrderTypes",
-                        principalColumn: "IdOrderType",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_Receipts", x => x.IdReceipt);
                 });
 
             migrationBuilder.CreateTable(
@@ -75,6 +68,36 @@ namespace MAS_BE.Migrations
                         principalTable: "ProductCategories",
                         principalColumn: "IdProductCategory",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    IdOrder = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Sum = table.Column<float>(type: "real", nullable: false),
+                    CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ClosedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IdOrderType = table.Column<int>(type: "int", nullable: false),
+                    TableNumber = table.Column<int>(type: "int", nullable: true),
+                    IdReceipt = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.IdOrder);
+                    table.ForeignKey(
+                        name: "FK_Orders_OrderTypes_IdOrderType",
+                        column: x => x.IdOrderType,
+                        principalTable: "OrderTypes",
+                        principalColumn: "IdOrderType",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Orders_Receipts_IdReceipt",
+                        column: x => x.IdReceipt,
+                        principalTable: "Receipts",
+                        principalColumn: "IdReceipt",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -125,11 +148,11 @@ namespace MAS_BE.Migrations
 
             migrationBuilder.InsertData(
                 table: "Orders",
-                columns: new[] { "IdOrder", "ClosedAt", "CreateAt", "IdOrderType", "Sum", "TableNumber" },
+                columns: new[] { "IdOrder", "ClosedAt", "CreateAt", "IdOrderType", "IdReceipt", "Sum", "TableNumber" },
                 values: new object[,]
                 {
-                    { 1, null, new DateTime(2023, 7, 17, 16, 56, 5, 571, DateTimeKind.Local).AddTicks(5612), 1, 30.4f, null },
-                    { 2, null, new DateTime(2023, 7, 17, 16, 56, 5, 573, DateTimeKind.Local).AddTicks(7813), 1, 13f, null }
+                    { 1, null, new DateTime(2023, 7, 25, 0, 52, 25, 441, DateTimeKind.Local).AddTicks(9943), 1, null, 30.4f, null },
+                    { 2, null, new DateTime(2023, 7, 25, 0, 52, 25, 444, DateTimeKind.Local).AddTicks(499), 1, null, 13f, null }
                 });
 
             migrationBuilder.InsertData(
@@ -174,6 +197,13 @@ namespace MAS_BE.Migrations
                 column: "IdOrderType");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Orders_IdReceipt",
+                table: "Orders",
+                column: "IdReceipt",
+                unique: true,
+                filter: "[IdReceipt] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Products_IdProductCategory",
                 table: "Products",
                 column: "IdProductCategory");
@@ -192,6 +222,9 @@ namespace MAS_BE.Migrations
 
             migrationBuilder.DropTable(
                 name: "OrderTypes");
+
+            migrationBuilder.DropTable(
+                name: "Receipts");
 
             migrationBuilder.DropTable(
                 name: "ProductCategories");

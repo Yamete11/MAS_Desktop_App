@@ -26,13 +26,12 @@ namespace MAS_BE.Entities
         [ForeignKey(nameof(IdOrderType))]
         public OrderType OrderType { get; set; }
 
-        public int IdReceipt { get; set; }
-
-        [Required]
-        [ForeignKey(nameof(IdReceipt))]
-        public Receipt Receipt { get; set; }
-
-
         public int? TableNumber { get; set; }
+
+        
+        public int? IdReceipt { get; set; }
+
+        [ForeignKey(nameof(IdReceipt))]
+        public virtual Receipt Receipt { get; set; }
     }
 }
