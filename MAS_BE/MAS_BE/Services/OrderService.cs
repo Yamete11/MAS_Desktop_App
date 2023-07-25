@@ -73,16 +73,21 @@ namespace MAS_BE.Services
 
         public async Task<MethodResultDTO> PostReceipt(ReceiptDTO receiptDTO)
         {
+
+            Order order = _context.Orders.FirstOrDefault(o => o.IdOrder == receiptDTO.IdOrder);
+
             Receipt receipt = new Receipt
             {
                 createdAt = DateTime.Now,
                 NIP = receiptDTO.NIP,
-                PaymentMethod = receiptDTO.PaymentMethod
+                PaymentMethod = receiptDTO.PaymentMethod,
+                Sum = order.Sum
             };
 
-            Order order = _context.Orders.FirstOrDefault(o => o.IdOrder == receiptDTO.IdOrder);
-
             order.Receipt = receipt;
+            order.ClosedAt = DateTime.Now;
+
+            _context.Receipts.Add(receipt);
 
             _context.Orders.Update(order);
 
