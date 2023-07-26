@@ -9,5 +9,7 @@ namespace MAS_BE.DTOs
         public float Sum { get; set; }
 
         public DateTime CreateAt { get; set; }
+
+        public int? IdReceipt { get; set; }
     }
 }

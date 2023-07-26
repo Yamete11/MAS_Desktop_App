@@ -41,6 +41,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.Sum_label = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.Cash_button = new System.Windows.Forms.Button();
+            this.Mastercard_button = new System.Windows.Forms.Button();
+            this.Visa_button = new System.Windows.Forms.Button();
+            this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // Cart_listbox
@@ -57,7 +64,7 @@
             // 
             this.Products_listbox.FormattingEnabled = true;
             this.Products_listbox.ItemHeight = 15;
-            this.Products_listbox.Location = new System.Drawing.Point(517, 102);
+            this.Products_listbox.Location = new System.Drawing.Point(216, 32);
             this.Products_listbox.Name = "Products_listbox";
             this.Products_listbox.Size = new System.Drawing.Size(225, 244);
             this.Products_listbox.TabIndex = 1;
@@ -91,6 +98,7 @@
             this.Pay_button.TabIndex = 4;
             this.Pay_button.Text = "Pay";
             this.Pay_button.UseVisualStyleBackColor = true;
+            this.Pay_button.Click += new System.EventHandler(this.Pay_button_Click);
             // 
             // Cancel_button
             // 
@@ -104,7 +112,7 @@
             // 
             // Add_button
             // 
-            this.Add_button.Location = new System.Drawing.Point(323, 158);
+            this.Add_button.Location = new System.Drawing.Point(31, 78);
             this.Add_button.Name = "Add_button";
             this.Add_button.Size = new System.Drawing.Size(124, 43);
             this.Add_button.TabIndex = 6;
@@ -114,7 +122,7 @@
             // 
             // Void_button
             // 
-            this.Void_button.Location = new System.Drawing.Point(323, 237);
+            this.Void_button.Location = new System.Drawing.Point(31, 177);
             this.Void_button.Name = "Void_button";
             this.Void_button.Size = new System.Drawing.Size(124, 43);
             this.Void_button.TabIndex = 7;
@@ -144,7 +152,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(587, 84);
+            this.label2.Location = new System.Drawing.Point(288, 14);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(89, 15);
             this.label2.TabIndex = 10;
@@ -169,27 +177,79 @@
             this.Sum_label.Text = "label4";
             this.Sum_label.Click += new System.EventHandler(this.Sum_label_Click);
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.Void_button);
+            this.panel1.Controls.Add(this.Add_button);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.Products_listbox);
+            this.panel1.Location = new System.Drawing.Point(301, 70);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(474, 304);
+            this.panel1.TabIndex = 13;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.Cash_button);
+            this.panel2.Controls.Add(this.Mastercard_button);
+            this.panel2.Controls.Add(this.Visa_button);
+            this.panel2.Location = new System.Drawing.Point(301, 70);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(474, 304);
+            this.panel2.TabIndex = 14;
+            // 
+            // Cash_button
+            // 
+            this.Cash_button.Location = new System.Drawing.Point(233, 125);
+            this.Cash_button.Name = "Cash_button";
+            this.Cash_button.Size = new System.Drawing.Size(124, 43);
+            this.Cash_button.TabIndex = 2;
+            this.Cash_button.Text = "Cash";
+            this.Cash_button.UseVisualStyleBackColor = true;
+            this.Cash_button.Click += new System.EventHandler(this.Cash_button_Click);
+            // 
+            // Mastercard_button
+            // 
+            this.Mastercard_button.Location = new System.Drawing.Point(31, 177);
+            this.Mastercard_button.Name = "Mastercard_button";
+            this.Mastercard_button.Size = new System.Drawing.Size(124, 43);
+            this.Mastercard_button.TabIndex = 1;
+            this.Mastercard_button.Text = "Mastercard";
+            this.Mastercard_button.UseVisualStyleBackColor = true;
+            this.Mastercard_button.Click += new System.EventHandler(this.Mastercard_button_Click);
+            // 
+            // Visa_button
+            // 
+            this.Visa_button.Location = new System.Drawing.Point(31, 78);
+            this.Visa_button.Name = "Visa_button";
+            this.Visa_button.Size = new System.Drawing.Size(124, 43);
+            this.Visa_button.TabIndex = 0;
+            this.Visa_button.Text = "Visa";
+            this.Visa_button.UseVisualStyleBackColor = true;
+            this.Visa_button.Click += new System.EventHandler(this.Visa_button_Click);
+            // 
             // OrderForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(802, 451);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.Sum_label);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.Send_button);
-            this.Controls.Add(this.Void_button);
-            this.Controls.Add(this.Add_button);
             this.Controls.Add(this.Cancel_button);
             this.Controls.Add(this.Pay_button);
             this.Controls.Add(this.Drik_button);
             this.Controls.Add(this.Food_button);
-            this.Controls.Add(this.Products_listbox);
             this.Controls.Add(this.Cart_listbox);
+            this.Controls.Add(this.panel1);
             this.Name = "OrderForm";
             this.Text = "OrderForm";
             this.Load += new System.EventHandler(this.OrderForm_Load);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -210,5 +270,10 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label Sum_label;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button Cash_button;
+        private System.Windows.Forms.Button Mastercard_button;
+        private System.Windows.Forms.Button Visa_button;
     }
 }

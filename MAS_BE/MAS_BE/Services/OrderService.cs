@@ -26,7 +26,8 @@ namespace MAS_BE.Services
             {
                 IdOrder = x.IdOrder,
                 Sum = x.Sum,
-                CreateAt = x.CreateAt
+                CreateAt = x.CreateAt,
+                IdReceipt = x.IdReceipt
             }).ToListAsync();
         }
 
@@ -68,35 +69,6 @@ namespace MAS_BE.Services
             {
                 HttpStatusCode = HttpStatusCode.OK,
                 Message = "Updated"
-            };
-        }
-
-        public async Task<MethodResultDTO> PostReceipt(ReceiptDTO receiptDTO)
-        {
-
-            Order order = _context.Orders.FirstOrDefault(o => o.IdOrder == receiptDTO.IdOrder);
-
-            Receipt receipt = new Receipt
-            {
-                createdAt = DateTime.Now,
-                NIP = receiptDTO.NIP,
-                PaymentMethod = receiptDTO.PaymentMethod,
-                Sum = order.Sum
-            };
-
-            order.Receipt = receipt;
-            order.ClosedAt = DateTime.Now;
-
-            _context.Receipts.Add(receipt);
-
-            _context.Orders.Update(order);
-
-            await _context.SaveChangesAsync();
-
-            return new MethodResultDTO
-            {
-                HttpStatusCode = HttpStatusCode.OK,
-                Message = "Added"
             };
         }
     }

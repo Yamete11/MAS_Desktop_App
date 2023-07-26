@@ -20,7 +20,7 @@ namespace MAS_FE
 
         }
 
-        private void Exit_Click(object sender, EventArgs e)
+        private void Exit_button_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
@@ -34,7 +34,27 @@ namespace MAS_FE
         {
             
             List<Order> orders = await GetOrdersFromApi();
-            Order_listbox.Items.AddRange(orders.ToArray());
+            List<Order> ordersWithReceipts = orders.Where(o => o.IdReceipt == null).ToList();
+            Order_listbox.Items.AddRange(ordersWithReceipts.ToArray());
+
+            List<Order> ordersWithOutReceipts = orders.Where(o => o.IdReceipt != null).ToList();
+            Raport_listbox.Items.AddRange(ordersWithOutReceipts.ToArray());
+
+            Main_panel.Visible = true;
+            Main_panel.Controls.Add(Order_listbox);
+            Main_panel.Controls.Add(Select_button);
+            Main_panel.Controls.Add(Create_button);
+            Main_panel.Controls.Add(Raport_button);
+            Main_panel.Controls.Add(Add_button);
+            
+
+            Raport_panel.Visible = false;
+            Raport_panel.Controls.Add(Raport_listbox);
+            Raport_panel.Controls.Add(Raport_label);
+            Back_button.Visible = false;
+            
+
+
 
         }
 
@@ -91,6 +111,25 @@ namespace MAS_FE
             AddProductForm productForm = new AddProductForm();
             productForm.Show();
             this.Hide();
+        }
+
+        private void Raport_button_Click(object sender, EventArgs e)
+        {
+            Main_panel.Visible = false;
+            Raport_panel.Visible = true;
+            Back_button.Visible = true;
+        }
+
+        private void Back_button_Click(object sender, EventArgs e)
+        {
+            Main_panel.Visible = true;
+            Raport_panel.Visible = false;
+            Back_button.Visible = false;
+        }
+
+        private void Raport_listbox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

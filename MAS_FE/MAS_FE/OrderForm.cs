@@ -50,6 +50,17 @@ namespace MAS_FE
 
             UpdateSum();
             Products_listbox.Items.AddRange(foodList.ToArray());
+            panel1.Visible = true;
+            panel1.Controls.Add(Products_listbox);
+            panel1.Controls.Add(Add_button);
+            panel1.Controls.Add(Void_button);
+            panel1.Controls.Add(label2);
+            panel2.Visible = false;
+            panel2.Controls.Add(Cash_button);
+            panel2.Controls.Add(Visa_button);
+            panel2.Controls.Add(Mastercard_button);
+            
+            
         }
 
         private void Cart_listbox_SelectedIndexChanged(object sender, EventArgs e)
@@ -106,7 +117,8 @@ namespace MAS_FE
 
         private void Drik_button_Click(object sender, EventArgs e)
         {
-
+            panel1.Visible = true;
+            panel2.Visible = false;
             Products_listbox.Items.Clear();
             Products_listbox.Items.AddRange(drinkList.ToArray());
 
@@ -114,6 +126,8 @@ namespace MAS_FE
 
         private void Food_button_Click(object sender, EventArgs e)
         {
+            panel1.Visible = true;
+            panel2.Visible = false;
             Products_listbox.Items.Clear();
             Products_listbox.Items.AddRange(foodList.ToArray());
         }
@@ -262,5 +276,72 @@ namespace MAS_FE
             }
         }
 
+        private void Pay_button_Click(object sender, EventArgs e)
+        {
+            panel1.Visible = false;
+            panel2.Visible = true;
+            
+        }
+
+        public async Task SendReceipt(PaymentMethod paymentMethod)
+        {
+            ReceiptDTO receiptDTO = new ReceiptDTO()
+            {
+                IdOrder = this.IdOrder,
+                NIP = "NIP",
+                PaymentMethod = paymentMethod
+            };
+
+
+            using (HttpClient httpClient = new HttpClient())
+            {
+                string url = "https://localhost:44325/api/Receipt";
+
+
+                string jsonContent = JsonConvert.SerializeObject(receiptDTO);
+
+
+                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+
+                HttpResponseMessage response = await httpClient.PostAsync(url, content);
+
+
+                if (response.IsSuccessStatusCode)
+                {
+
+                    Console.WriteLine("ProductResults sent successfully.");
+                }
+                else
+                {
+
+                    Console.WriteLine("Failed to send ProductResults. Status code: " + response.StatusCode);
+                }
+            }
+        }
+
+        private async void Visa_button_Click(object sender, EventArgs e)
+        {
+            await SendReceipt(PaymentMethod.Visa);
+            this.Hide();
+            Form1 Form1 = new Form1();
+            Form1.Show();
+        }
+
+        private async void Mastercard_button_Click(object sender, EventArgs e)
+        {
+            await SendReceipt(PaymentMethod.MasterCard);
+            this.Hide();
+            Form1 Form1 = new Form1();
+            Form1.Show();
+        }
+
+        private async void Cash_button_Click(object sender, EventArgs e)
+        {
+            await SendReceipt(PaymentMethod.Cash);
+            this.Hide();
+            Form1 Form1 = new Form1();
+            Form1.Show();
+        }
     }
 }

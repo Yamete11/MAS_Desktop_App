@@ -37,6 +37,7 @@ namespace MAS_BE
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IOrderProductService, OrderProductService>();
+            services.AddScoped<IReceiptService, ReceiptService>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

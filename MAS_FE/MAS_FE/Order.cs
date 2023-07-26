@@ -14,6 +14,8 @@ namespace MAS_FE
 
         public DateTime CreateAt { get; set; }
 
+        public int? IdReceipt { get; set; }
+
         public override string? ToString()
         {
             return $"Id: {IdOrder} | Sum: {Sum} | Created at: {CreateAt}";
