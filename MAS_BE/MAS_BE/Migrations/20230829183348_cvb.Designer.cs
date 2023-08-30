@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MAS_BE.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20230724225225_nmnm")]
-    partial class nmnm
+    [Migration("20230829183348_cvb")]
+    partial class cvb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,139 @@ namespace MAS_BE.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("MAS_BE.Entities.Client", b =>
+                {
+                    b.Property<int>("IdClient")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Discount")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NIP")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TelNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdClient");
+
+                    b.ToTable("Clients");
+
+                    b.HasData(
+                        new
+                        {
+                            IdClient = 1,
+                            Discount = true,
+                            Email = "email@gmail.com",
+                            FirstName = "Gleb",
+                            LastName = "Ivanov",
+                            TelNumber = "12312341"
+                        });
+                });
+
+            modelBuilder.Entity("MAS_BE.Entities.Ingridient", b =>
+                {
+                    b.Property<int>("IdIngridient")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("Weight")
+                        .HasColumnType("real");
+
+                    b.HasKey("IdIngridient");
+
+                    b.ToTable("Ingridients");
+
+                    b.HasData(
+                        new
+                        {
+                            IdIngridient = 1,
+                            Title = "First Ingridient",
+                            Weight = 23.5f
+                        },
+                        new
+                        {
+                            IdIngridient = 2,
+                            Title = "Second Ingridient",
+                            Weight = 25.5f
+                        },
+                        new
+                        {
+                            IdIngridient = 3,
+                            Title = "Third Ingridient",
+                            Weight = 21.5f
+                        });
+                });
+
+            modelBuilder.Entity("MAS_BE.Entities.Manager", b =>
+                {
+                    b.Property<int>("IdManager")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Adress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateOfBirthday")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("SALARY")
+                        .HasColumnType("real");
+
+                    b.Property<bool>("Student")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("TelNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdManager");
+
+                    b.ToTable("Managers");
+
+                    b.HasData(
+                        new
+                        {
+                            IdManager = 1,
+                            Adress = "Adress",
+                            Code = "123",
+                            DateOfBirthday = new DateTime(2023, 8, 29, 20, 33, 47, 669, DateTimeKind.Local).AddTicks(7605),
+                            Email = "email@gmail.com",
+                            FirstName = "Gleb",
+                            LastName = "Ivanov",
+                            SALARY = 12f,
+                            Student = true,
+                            TelNumber = "14312412"
+                        });
+                });
 
             modelBuilder.Entity("MAS_BE.Entities.Order", b =>
                 {
@@ -34,10 +167,19 @@ namespace MAS_BE.Migrations
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("IdClient")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdManager")
+                        .HasColumnType("int");
+
                     b.Property<int>("IdOrderType")
                         .HasColumnType("int");
 
                     b.Property<int?>("IdReceipt")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdWaiter")
                         .HasColumnType("int");
 
                     b.Property<float>("Sum")
@@ -48,11 +190,17 @@ namespace MAS_BE.Migrations
 
                     b.HasKey("IdOrder");
 
+                    b.HasIndex("IdClient");
+
+                    b.HasIndex("IdManager");
+
                     b.HasIndex("IdOrderType");
 
                     b.HasIndex("IdReceipt")
                         .IsUnique()
                         .HasFilter("[IdReceipt] IS NOT NULL");
+
+                    b.HasIndex("IdWaiter");
 
                     b.ToTable("Orders");
 
@@ -60,14 +208,18 @@ namespace MAS_BE.Migrations
                         new
                         {
                             IdOrder = 1,
-                            CreateAt = new DateTime(2023, 7, 25, 0, 52, 25, 441, DateTimeKind.Local).AddTicks(9943),
+                            ClosedAt = new DateTime(2023, 8, 29, 20, 33, 47, 674, DateTimeKind.Local).AddTicks(3319),
+                            CreateAt = new DateTime(2023, 8, 29, 20, 33, 47, 674, DateTimeKind.Local).AddTicks(2970),
+                            IdClient = 1,
                             IdOrderType = 1,
+                            IdReceipt = 1,
                             Sum = 30.4f
                         },
                         new
                         {
                             IdOrder = 2,
-                            CreateAt = new DateTime(2023, 7, 25, 0, 52, 25, 444, DateTimeKind.Local).AddTicks(499),
+                            CreateAt = new DateTime(2023, 8, 29, 20, 33, 47, 674, DateTimeKind.Local).AddTicks(4109),
+                            IdClient = 1,
                             IdOrderType = 1,
                             Sum = 13f
                         });
@@ -260,6 +412,48 @@ namespace MAS_BE.Migrations
                         });
                 });
 
+            modelBuilder.Entity("MAS_BE.Entities.ProductIngridient", b =>
+                {
+                    b.Property<int>("IdProductIngridient")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("IdIngridient")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdProduct")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdProductIngridient");
+
+                    b.HasIndex("IdIngridient");
+
+                    b.HasIndex("IdProduct");
+
+                    b.ToTable("ProductIngridients");
+
+                    b.HasData(
+                        new
+                        {
+                            IdProductIngridient = 1,
+                            IdIngridient = 1,
+                            IdProduct = 1
+                        },
+                        new
+                        {
+                            IdProductIngridient = 2,
+                            IdIngridient = 3,
+                            IdProduct = 1
+                        },
+                        new
+                        {
+                            IdProductIngridient = 3,
+                            IdIngridient = 2,
+                            IdProduct = 2
+                        });
+                });
+
             modelBuilder.Entity("MAS_BE.Entities.Receipt", b =>
                 {
                     b.Property<int>("IdReceipt")
@@ -282,10 +476,98 @@ namespace MAS_BE.Migrations
                     b.HasKey("IdReceipt");
 
                     b.ToTable("Receipts");
+
+                    b.HasData(
+                        new
+                        {
+                            IdReceipt = 1,
+                            PaymentMethod = 0,
+                            Sum = 30.4f,
+                            createdAt = new DateTime(2023, 8, 29, 20, 33, 47, 673, DateTimeKind.Local).AddTicks(7257)
+                        });
+                });
+
+            modelBuilder.Entity("MAS_BE.Entities.Report", b =>
+                {
+                    b.Property<int>("IdReport")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("IdManger")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<float>("Revenue")
+                        .HasColumnType("real");
+
+                    b.HasKey("IdReport");
+
+                    b.HasIndex("IdManger");
+
+                    b.ToTable("Reports");
+
+                    b.HasData(
+                        new
+                        {
+                            IdReport = 1,
+                            CreateAt = new DateTime(2023, 8, 29, 20, 33, 47, 672, DateTimeKind.Local).AddTicks(9052),
+                            OrderQuantity = 3,
+                            Revenue = 100f
+                        });
+                });
+
+            modelBuilder.Entity("MAS_BE.Entities.Waiter", b =>
+                {
+                    b.Property<int>("IdWaiter")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Adress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateOfBirthday")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Student")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("TelNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdWaiter");
+
+                    b.ToTable("Waiters");
                 });
 
             modelBuilder.Entity("MAS_BE.Entities.Order", b =>
                 {
+                    b.HasOne("MAS_BE.Entities.Client", "Client")
+                        .WithMany("Orders")
+                        .HasForeignKey("IdClient");
+
+                    b.HasOne("MAS_BE.Entities.Manager", "Manager")
+                        .WithMany("Orders")
+                        .HasForeignKey("IdManager");
+
                     b.HasOne("MAS_BE.Entities.OrderType", "OrderType")
                         .WithMany("Orders")
                         .HasForeignKey("IdOrderType")
@@ -296,9 +578,19 @@ namespace MAS_BE.Migrations
                         .WithOne("Order")
                         .HasForeignKey("MAS_BE.Entities.Order", "IdReceipt");
 
+                    b.HasOne("MAS_BE.Entities.Waiter", "Waiter")
+                        .WithMany()
+                        .HasForeignKey("IdWaiter");
+
+                    b.Navigation("Client");
+
+                    b.Navigation("Manager");
+
                     b.Navigation("OrderType");
 
                     b.Navigation("Receipt");
+
+                    b.Navigation("Waiter");
                 });
 
             modelBuilder.Entity("MAS_BE.Entities.OrderProduct", b =>
@@ -331,6 +623,51 @@ namespace MAS_BE.Migrations
                     b.Navigation("ProductCategory");
                 });
 
+            modelBuilder.Entity("MAS_BE.Entities.ProductIngridient", b =>
+                {
+                    b.HasOne("MAS_BE.Entities.Ingridient", "Ingridient")
+                        .WithMany("ProductIngridients")
+                        .HasForeignKey("IdIngridient")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MAS_BE.Entities.Product", "Product")
+                        .WithMany("ProductIngridients")
+                        .HasForeignKey("IdProduct")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ingridient");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("MAS_BE.Entities.Report", b =>
+                {
+                    b.HasOne("MAS_BE.Entities.Manager", "Manager")
+                        .WithMany("Reports")
+                        .HasForeignKey("IdManger");
+
+                    b.Navigation("Manager");
+                });
+
+            modelBuilder.Entity("MAS_BE.Entities.Client", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("MAS_BE.Entities.Ingridient", b =>
+                {
+                    b.Navigation("ProductIngridients");
+                });
+
+            modelBuilder.Entity("MAS_BE.Entities.Manager", b =>
+                {
+                    b.Navigation("Orders");
+
+                    b.Navigation("Reports");
+                });
+
             modelBuilder.Entity("MAS_BE.Entities.Order", b =>
                 {
                     b.Navigation("OrderProducts");
@@ -344,6 +681,8 @@ namespace MAS_BE.Migrations
             modelBuilder.Entity("MAS_BE.Entities.Product", b =>
                 {
                     b.Navigation("OrderProducts");
+
+                    b.Navigation("ProductIngridients");
                 });
 
             modelBuilder.Entity("MAS_BE.Entities.ProductCategory", b =>

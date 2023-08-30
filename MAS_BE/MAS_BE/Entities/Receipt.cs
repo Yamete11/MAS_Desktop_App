@@ -19,7 +19,6 @@ namespace MAS_BE.Entities
         public float Sum { get; set; }
         public string? NIP { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
-
-        public Order Order { get; set; }
+        public virtual Order Order { get; set; }
     }
 }

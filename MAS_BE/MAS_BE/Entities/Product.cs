@@ -20,6 +20,8 @@ namespace MAS_BE.Entities
         public ProductCategory ProductCategory { get; set; }
 
         public ICollection<OrderProduct> OrderProducts { get; set; }
-        
+
+        public ICollection<ProductIngridient> ProductIngridients { get; set; }
+
     }
 }

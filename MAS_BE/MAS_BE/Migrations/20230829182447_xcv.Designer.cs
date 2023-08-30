@@ -4,14 +4,16 @@ using MAS_BE.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MAS_BE.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230829182447_xcv")]
+    partial class xcv
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,51 +107,9 @@ namespace MAS_BE.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Adress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateOfBirthday")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float>("SALARY")
-                        .HasColumnType("real");
-
-                    b.Property<bool>("Student")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("TelNumber")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("IdManager");
 
                     b.ToTable("Managers");
-
-                    b.HasData(
-                        new
-                        {
-                            IdManager = 1,
-                            Adress = "Adress",
-                            Code = "123",
-                            DateOfBirthday = new DateTime(2023, 8, 29, 20, 39, 12, 220, DateTimeKind.Local).AddTicks(8064),
-                            Email = "email@gmail.com",
-                            FirstName = "Gleb",
-                            LastName = "Ivanov",
-                            SALARY = 12f,
-                            Student = true,
-                            TelNumber = "14312412"
-                        });
                 });
 
             modelBuilder.Entity("MAS_BE.Entities.Order", b =>
@@ -206,8 +166,8 @@ namespace MAS_BE.Migrations
                         new
                         {
                             IdOrder = 1,
-                            ClosedAt = new DateTime(2023, 8, 29, 20, 39, 12, 222, DateTimeKind.Local).AddTicks(5365),
-                            CreateAt = new DateTime(2023, 8, 29, 20, 39, 12, 222, DateTimeKind.Local).AddTicks(5014),
+                            ClosedAt = new DateTime(2023, 8, 29, 20, 24, 47, 573, DateTimeKind.Local).AddTicks(387),
+                            CreateAt = new DateTime(2023, 8, 29, 20, 24, 47, 573, DateTimeKind.Local).AddTicks(41),
                             IdClient = 1,
                             IdOrderType = 1,
                             IdReceipt = 1,
@@ -216,7 +176,7 @@ namespace MAS_BE.Migrations
                         new
                         {
                             IdOrder = 2,
-                            CreateAt = new DateTime(2023, 8, 29, 20, 39, 12, 222, DateTimeKind.Local).AddTicks(6158),
+                            CreateAt = new DateTime(2023, 8, 29, 20, 24, 47, 573, DateTimeKind.Local).AddTicks(1202),
                             IdClient = 1,
                             IdOrderType = 1,
                             Sum = 13f
@@ -481,7 +441,7 @@ namespace MAS_BE.Migrations
                             IdReceipt = 1,
                             PaymentMethod = 0,
                             Sum = 30.4f,
-                            createdAt = new DateTime(2023, 8, 29, 20, 39, 12, 221, DateTimeKind.Local).AddTicks(9433)
+                            createdAt = new DateTime(2023, 8, 29, 20, 24, 47, 572, DateTimeKind.Local).AddTicks(4140)
                         });
                 });
 
@@ -514,8 +474,7 @@ namespace MAS_BE.Migrations
                         new
                         {
                             IdReport = 1,
-                            CreateAt = new DateTime(2023, 8, 29, 20, 39, 12, 221, DateTimeKind.Local).AddTicks(1114),
-                            IdManger = 1,
+                            CreateAt = new DateTime(2023, 8, 29, 20, 24, 47, 566, DateTimeKind.Local).AddTicks(9082),
                             OrderQuantity = 3,
                             Revenue = 100f
                         });
@@ -555,19 +514,6 @@ namespace MAS_BE.Migrations
                     b.HasKey("IdWaiter");
 
                     b.ToTable("Waiters");
-
-                    b.HasData(
-                        new
-                        {
-                            IdWaiter = 1,
-                            Adress = "Adress",
-                            DateOfBirthday = new DateTime(2023, 8, 29, 20, 39, 12, 217, DateTimeKind.Local).AddTicks(8820),
-                            Email = "email@gmail.com",
-                            FirstName = "Gleb",
-                            LastName = "Ivanov",
-                            Student = true,
-                            TelNumber = "14312412"
-                        });
                 });
 
             modelBuilder.Entity("MAS_BE.Entities.Order", b =>

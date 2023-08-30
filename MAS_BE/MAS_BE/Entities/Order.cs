@@ -17,7 +17,7 @@ namespace MAS_BE.Entities
 
         public DateTime? ClosedAt { get; set; }
 
-        
+
         public ICollection<OrderProduct> OrderProducts { get; set; }
 
         public int IdOrderType { get; set; }
@@ -28,10 +28,23 @@ namespace MAS_BE.Entities
 
         public int? TableNumber { get; set; }
 
-        
+
         public int? IdReceipt { get; set; }
 
         [ForeignKey(nameof(IdReceipt))]
         public virtual Receipt Receipt { get; set; }
+
+
+        public int? IdClient { get; set; }
+        [ForeignKey(nameof(IdClient))]
+        public Client Client { get; set; }
+
+        public int? IdWaiter { get; set; }
+        [ForeignKey(nameof(IdWaiter))]
+        public Waiter Waiter { get; set; }
+
+        public int? IdManager { get; set; }
+        [ForeignKey(nameof(IdManager))]
+        public Manager Manager { get; set; }
     }
 }

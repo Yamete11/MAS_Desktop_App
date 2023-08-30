@@ -245,7 +245,7 @@
             this.Controls.Add(this.Cart_listbox);
             this.Controls.Add(this.panel1);
             this.Name = "OrderForm";
-            this.Text = "OrderForm";
+            this.Text = "```";
             this.Load += new System.EventHandler(this.OrderForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
